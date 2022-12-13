@@ -74,14 +74,10 @@ public class Controller {
 
 
   @DeleteMapping("/tasks/{id}")
-  String deleteTask(@PathVariable Long id) {
+  void deleteTask(@PathVariable Long id) {
     if (taskRepository.findById(id).isPresent()) {
       taskRepository.deleteById(id);
-
-      return "Task " + id + " was deleted";
     }
-
-    return "Task was not found";
   }
 
 
@@ -93,7 +89,7 @@ public class Controller {
 
   @PostMapping("/userLogin")
   public String login(@RequestBody UserAndPassword userAndPassword) {
-  //@RequestParam(name="username") String username, @RequestParam(name="password") String pwd
+    //@RequestParam(name="username") String username, @RequestParam(name="password") String pwd
 
 
     String username = userAndPassword.getUsername();
@@ -110,15 +106,13 @@ public class Controller {
       if (account.getUsername().equals(username) && !account.getToken().equals("")) {
         throw new UserAlreadyLoggedInException(username);
       }
-      if(!account.getPassword().equals(pwd)){
-       throw new WrongCredentialsException(username);
+      if (account.getUsername().equals(username) && !account.getPassword().equals(pwd) && account.getToken().equals("")) {
+        throw new WrongCredentialsException(username);
       }
-      if (account.getUsername().equals(userAccount.getUsername()) && account.getToken().equals("")) {
+      if (account.getUsername().equals(username) && account.getPassword().equals(pwd) && account.getToken().equals("")) {
         account.setToken(token);
         account.setActive(true);
-
         userRepository.save(account);
-
         return token;
       }
     }
@@ -136,10 +130,7 @@ public class Controller {
         account.setToken("");
         account.setActive(false);
         userRepository.save(account);
-      } else {
-        throw new UserAlreadyLoggedOutException(token);
       }
     }
-
   }
 }

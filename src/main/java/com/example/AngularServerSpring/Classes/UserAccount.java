@@ -16,9 +16,10 @@ public class UserAccount {
 
   }
 
-  public UserAccount(String username, String password) {
+  public UserAccount(String username, String password, String token) {
     this.username = username;
     this.password = password;
+    this.password = token;
   }
 
   public Long getId() {
