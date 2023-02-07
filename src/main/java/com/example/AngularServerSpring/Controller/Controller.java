@@ -5,7 +5,6 @@ import com.example.AngularServerSpring.Classes.UserAccount;
 import com.example.AngularServerSpring.Classes.UserAndPassword;
 import com.example.AngularServerSpring.Exceptions.TaskNotFoundException;
 import com.example.AngularServerSpring.Exceptions.UserAlreadyLoggedInException;
-import com.example.AngularServerSpring.Exceptions.UserAlreadyLoggedOutException;
 import com.example.AngularServerSpring.Exceptions.WrongCredentialsException;
 import com.example.AngularServerSpring.Interfaces.TaskRepository;
 import com.example.AngularServerSpring.Interfaces.UserRepository;
