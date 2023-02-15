@@ -49,7 +49,6 @@ public class Controller {
 
   @GetMapping("/tasks/{id}")
   Task one(@PathVariable Long id) {
-    System.out.println("Success");
     return taskRepository.findById(id)
       .orElseThrow(() -> new TaskNotFoundException(id));
   }
