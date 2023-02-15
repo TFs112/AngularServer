@@ -43,30 +43,29 @@ public class Controller {
 
   @PostMapping("/task")
   Task newTask(@RequestBody Task newTask) {
-    newTask.setCreated_at(LocalDateTime.now());
     return taskRepository.save(newTask);
   }
 
 
   @GetMapping("/tasks/{id}")
   Task one(@PathVariable Long id) {
-
+    System.out.println("Success");
     return taskRepository.findById(id)
       .orElseThrow(() -> new TaskNotFoundException(id));
   }
 
 
-  @PutMapping("/tasks/{id}")
-  Task replaceTask(@RequestBody Task newTask, @PathVariable Long id) {
+  @PutMapping("/replaceTask")
+  Task replaceTask(@RequestBody Task newTask) {
 
-    return taskRepository.findById(id)
+    return taskRepository.findById(newTask.getId())
       .map(employee -> {
         employee.setName(newTask.getName());
         employee.setText(newTask.getText());
         return taskRepository.save(employee);
       })
       .orElseGet(() -> {
-        newTask.setId(id);
+        newTask.setId(newTask.getId());
         return taskRepository.save(newTask);
       });
   }

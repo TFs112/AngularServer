@@ -16,9 +16,6 @@ public class Task {
   private String name;
   private String text;
 
-  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss a")
-  private LocalDateTime created_at;
-
   Task(){
 
   }
@@ -50,14 +47,6 @@ public class Task {
 
   public void setText(String text) {
     this.text = text;
-  }
-
-  public LocalDateTime getCreated_at() {
-    return created_at;
-  }
-
-  public void setCreated_at(LocalDateTime created_at) {
-    this.created_at = created_at;
   }
 
   @Override
