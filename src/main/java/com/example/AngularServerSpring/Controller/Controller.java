@@ -5,14 +5,14 @@ import com.example.AngularServerSpring.Classes.UserAccount;
 import com.example.AngularServerSpring.Classes.UserAndPassword;
 import com.example.AngularServerSpring.Exceptions.TaskNotFoundException;
 import com.example.AngularServerSpring.Exceptions.UserAlreadyLoggedInException;
-import com.example.AngularServerSpring.Exceptions.WrongCredentialsException;
 import com.example.AngularServerSpring.Interfaces.TaskRepository;
 import com.example.AngularServerSpring.Interfaces.UserRepository;
 import org.apache.logging.log4j.util.Supplier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -85,7 +85,7 @@ public class Controller {
 
 
   @PostMapping("/userLogin")
-  public String login(@RequestBody UserAndPassword userAndPassword) {
+  public Object login(@RequestBody UserAndPassword userAndPassword) {
     //@RequestParam(name="username") String username, @RequestParam(name="password") String pwd
 
 
@@ -101,10 +101,11 @@ public class Controller {
 
     for (UserAccount account : userRepository.findAll()) {
       if (account.getUsername().equals(username) && !account.getToken().equals("")) {
-        throw new UserAlreadyLoggedInException(username);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
       }
       if (account.getUsername().equals(username) && !account.getPassword().equals(pwd) && account.getToken().equals("")) {
-        throw new WrongCredentialsException(username);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
       }
       if (account.getUsername().equals(username) && account.getPassword().equals(pwd) && account.getToken().equals("")) {
         account.setToken(token);
